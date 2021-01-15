@@ -1,19 +1,10 @@
 import graphene
-from graphene_django import DjangoObjectType
 
-from hackernews.links.models import Link
-
-
-class LinkType(DjangoObjectType):
-    class Meta:
-        model = Link
+import hackernews.links.schema
 
 
-class Query(graphene.ObjectType):
-    links = graphene.List(LinkType)
-
-    def resolve_links(self, info, **kwargs):
-        return Link.objects.all()
+class Query(hackernews.links.schema.Query, graphene.ObjectType):
+    pass
 
 
 schema = graphene.Schema(query=Query)
